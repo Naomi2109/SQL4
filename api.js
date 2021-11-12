@@ -48,15 +48,15 @@ app.post("/Alumnos", function(req, res)
                   "VALUES ('" + req.body.Nombre + "', '" +
                                 req.body.Apellidos2 + "')";
         console.log(sql);
-        connection.query(sql, function (err, res)
+        connection.query(sql, function (err, result)
         {
             if (err)
                 console.log(err);
             else 
             {
-                console.log(res);
-                if (res.insertId)
-                    res.send(String(res.insertId));
+                console.log(result);
+                if (result.insertId)
+                    res.send(String(result.insertId));
                 else
                     res.send("-1");
             }
@@ -65,3 +65,42 @@ app.post("/Alumnos", function(req, res)
 
     });
 
+app.put("/Alumnos", function(req, res)
+    {
+        console.log(req.body);
+        let sql;
+        if (req.query.id != null) 
+        sql = "UPDATE Alumnos SET Nombre =" + req.body.Nombre;
+        if (req.query.id != null) 
+        sql = "UPDATE Alumnos SET Apellidos2 =" + req.body.Apellidos2;
+        
+        connection.query(sql, function (err, result)
+        {
+            if(err)
+            console.log(err);
+            else 
+            res.send(result);
+        });
+
+
+    });
+
+
+app.delete("/Alumnos", function(req,res)
+    {
+       console.log(req.body);
+       let sql;
+       if (req.query.id != null)
+       sql = "DELETE FROM Alumnos"   
+       
+       connection.query(sql, function(err, result)
+       {
+           if(err)
+           console.log(err);
+           else 
+           res.send(result);
+       });
+
+    });
+
+    app.listen(3000);
